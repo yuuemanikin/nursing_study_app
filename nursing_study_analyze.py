@@ -1,3 +1,4 @@
+pip install --upgrade
 pip install matplotlib
 
 import pandas as pd
