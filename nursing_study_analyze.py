@@ -214,6 +214,12 @@ if uploaded_file is not None:
         with one_count_tab:
             count_fig = plt.figure()
             count = sns.countplot(df, x=df[target_data])
+            count_display = st.checkbox('バーの数値を表示する', key='only_key')
+            if count_display == True:
+                for p in count.patches:
+                    height = height = round(p.get_height(), 1)
+                    count.annotate(f"{height}", (p.get_x() + p.get_width() / 2, height),
+                    ha='center', va='bottom')
             count.set_title('count')
             count.set_xticklabels(count.get_xticklabels(), rotation=45, fontsize=9)
             count.set_xlabel(df[target_data].name[:15])
