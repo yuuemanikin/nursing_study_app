@@ -55,9 +55,7 @@ if uploaded_file is not None:
             df_missing = df[df.isna().any(axis=1)]
             st.write('欠損値を含む行の数:', df_missing.shape[0])
             st.write(df_missing)
-            # コメントの表示（折りたたみセクション）
-            with st.expander('欠損値表示の解説'):
-                st.write('表示されているのは、欠損値を含む行です。')
+            st.write('表示されているのは、欠損値を含む行です。')
         else:
             st.write('欠損値は存在しません')
     st.write('')
@@ -219,7 +217,7 @@ if uploaded_file is not None:
         # 箱ひげ図を表示
         with tab_box:
             box_fig = plt.figure()
-            box = sns.boxplot(numeric_df[target_data])
+            box = sns.boxplot(data=numeric_df, x=target_data)
             box.set_title('box')
             st.pyplot(box.figure)
     else:
