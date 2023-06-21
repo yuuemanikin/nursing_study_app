@@ -6,6 +6,7 @@ import seaborn as sns
 import streamlit as st
 import chardet
 import tempfile
+import os
 
 # streamlitでアプリ化していく
 st.title('看護研究分析支援ツール')
@@ -26,7 +27,10 @@ if uploaded_file is not None:
     show_all = st.checkbox("全データを表示する（選択しなければ先頭10件を表示します）")
 
     # Pandasのread_csv関数を使用してデータを読み込む
-    df = pd.read_csv(uploaded_file, encoding=encoding)
+    df = pd.read_csv(temp_file.name, encoding=encoding)
+    # 一時ファイルを削除
+    temp_file.close()
+    os.unlink(temp_file.name)
     st.write('読み込んだデータを表形式で表示')
     # 読み込んだデータを表示
     # デフォルトは先頭10件のみ表示し、選択で全件表示可能とする
