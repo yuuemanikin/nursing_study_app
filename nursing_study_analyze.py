@@ -63,7 +63,7 @@ if uploaded_file is not None:
     st.write('')
 
     # 欠損値を除外するかどうかを選択する
-    if df.isna() != 0:
+    if df.isna().sum().sum() != 0:
         st.subheader('Ⅲ 欠損値を除外するかを検討する')
         checkbox1 = st.checkbox('欠損値を含む行を削除する')
         if checkbox1 == True:
