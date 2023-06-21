@@ -217,7 +217,7 @@ if uploaded_file is not None:
         # 箱ひげ図を表示
         with tab_box:
             box_fig = plt.figure()
-            box = sns.boxplot(data=numeric_df, x=target_data)
+            box = sns.boxplot(data=numeric_df, y=target_data)
             box.set_title('box')
             st.pyplot(box.figure)
     else:
