@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import japanize_matplotlib
 import seaborn as sns
 import streamlit as st
+import chardet
+import tempfile
 
 # streamlitでアプリ化していく
 st.title('看護研究分析支援ツール')
@@ -13,9 +15,18 @@ st.subheader('Ⅰ ファイルの準備と読み込み')
 uploaded_file = st.file_uploader('分析したいCSVファイルをアップロードしてください', type='csv')
 # ファイルがアップロードされた場合
 if uploaded_file is not None:
+    # ファイルを一時的に保存
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    temp_file.write(uploaded_file.read())
+    # 文字コードを判定
+    with open(temp_file.name, 'rb') as f:
+        result = chardet.detect(f.read())
+        encoding = result['encoding']
+
     show_all = st.checkbox("全データを表示する（選択しなければ先頭10件を表示します）")
+
     # Pandasのread_csv関数を使用してデータを読み込む
-    df = pd.read_csv(uploaded_file)
+    df = pd.read_csv(uploaded_file, encoding=encoding)
     st.write('読み込んだデータを表形式で表示')
     # 読み込んだデータを表示
     # デフォルトは先頭10件のみ表示し、選択で全件表示可能とする
@@ -33,7 +44,7 @@ if uploaded_file is not None:
     if df.shape[0] == 0:
         st.write('csvファイルを入力して下さい')
     else:
-        if df.isna() != 0:
+        if df.isna().sum() != 0:
             st.write('データの欠損値の数:')
             df_not_na = df.isna().sum().rename('欠損値を含む行の数')
             df_not_na.sort_values(ascending=False)
