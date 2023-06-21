@@ -5,4 +5,3 @@ japanize_matplotlib
 seaborn
 streamlit
 chardet
-tempfile
