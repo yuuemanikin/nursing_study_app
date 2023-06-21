@@ -48,18 +48,16 @@ if uploaded_file is not None:
     if df.shape[0] == 0:
         st.write('csvファイルを入力して下さい')
     else:
-        if df.isna().sum() != 0:
-            st.write('データの欠損値の数:')
-            df_not_na = df.isna().sum().rename('欠損値を含む行の数')
-            df_not_na.sort_values(ascending=False)
-            st.write(df_not_na)
+        # 欠損値の存在を行ごとにチェック
+        has_missing_values = df.isna().any(axis=1).any()
+        if has_missing_values:
+            st.write('データに欠損値があります。')
+            df_missing = df[df.isna().any(axis=1)]
+            st.write('欠損値を含む行の数:', df_missing.shape[0])
+            st.write(df_missing)
             # コメントの表示（折りたたみセクション）
             with st.expander('欠損値表示の解説'):
-                st.write(f'''
-                表示されているのは、欠損値を含む行がそれぞれの列ごとに計算されています。\n
-                例えば、上の表で「{df_not_na.index[0]}」と、「{df_not_na.index[1]}」にともに欠損値があった場合、
-                欠損値を含む行が重複するケースもあるので、欠損値の合計と欠損値を含む行の合計は必ずしも一致しません。
-                ''')
+                st.write('表示されているのは、欠損値を含む行です。')
         else:
             st.write('欠損値は存在しません')
     st.write('')
