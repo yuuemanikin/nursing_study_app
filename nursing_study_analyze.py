@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,30 +27,35 @@ if uploaded_file is not None:
     st.write(f'データ全体の行数は、{len(df)}行です。')
     st.write('')
 
-    # 欠損値を確認し、必要があれば欠損地を処理する
+    # 欠損値を確認し、必要があれば欠損値を処理する
     st.subheader('Ⅱ 欠損値の有無を確認する')
     # まずは欠損値の確認をする
     if df.shape[0] == 0:
         st.write('csvファイルを入力して下さい')
     else:
-        st.write('データの欠損値の数:')
-        df_not_na = df.isna().sum().rename('欠損値を含む行の数')
-        df_not_na.sort_values(ascending=False)
-        st.write(df_not_na)
-    # コメントの表示（折りたたみセクション）
-    with st.expander('欠損値表示の解説'):
-        st.write(f'''
-        表示されているのは、欠損値を含む行がそれぞれの列ごとに計算されています。\n
-        例えば、上の表で「{df_not_na.index[0]}」と、「{df_not_na.index[1]}」にともに欠損値があった場合、
-        欠損値を含む行が重複するケースもあるので、欠損値の合計と欠損値を含む行の合計は必ずしも一致しません。
-        ''')
+        if df.isna() != 0:
+            st.write('データの欠損値の数:')
+            df_not_na = df.isna().sum().rename('欠損値を含む行の数')
+            df_not_na.sort_values(ascending=False)
+            st.write(df_not_na)
+            # コメントの表示（折りたたみセクション）
+            with st.expander('欠損値表示の解説'):
+                st.write(f'''
+                表示されているのは、欠損値を含む行がそれぞれの列ごとに計算されています。\n
+                例えば、上の表で「{df_not_na.index[0]}」と、「{df_not_na.index[1]}」にともに欠損値があった場合、
+                欠損値を含む行が重複するケースもあるので、欠損値の合計と欠損値を含む行の合計は必ずしも一致しません。
+                ''')
+        else:
+            st.write('欠損値は存在しません')
     st.write('')
+
     # 欠損値を除外するかどうかを選択する
-    st.subheader('Ⅲ 欠損値を除外するかを検討する')
-    checkbox1 = st.checkbox('欠損値を含む行を削除する')
-    if checkbox1 == True:
-        df = df.dropna()
-        st.write(f'欠損値を含む行を削除し、データ全体の行数は、{len(df)}行になりました。')
+    if df.isna() != 0:
+        st.subheader('Ⅲ 欠損値を除外するかを検討する')
+        checkbox1 = st.checkbox('欠損値を含む行を削除する')
+        if checkbox1 == True:
+            df = df.dropna()
+            st.write(f'欠損値を含む行を削除し、データ全体の行数は、{len(df)}行になりました。')
     st.write('')
 
     # 数値型のデータが時刻データなら、分に換算し処理しやすいようにする
