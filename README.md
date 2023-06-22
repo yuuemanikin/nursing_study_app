@@ -14,4 +14,8 @@ You need prepare aggregated data and converted csv-file.
 
 You uploading csv-file,after that display using guide on screen.
 
+If your file using special-unicode,this uploader return error.
+
+You need use general-unicode, for example "utf-8","shift-jis" etc... .
+
 Please follow the guides on the display.
