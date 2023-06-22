@@ -180,8 +180,10 @@ if uploaded_file is not None:
     # ここまで処理したDataframeを必要があればcsvファイルとして書き出す
     if st.button('ここまで処理した表を保存しますか？'):
         merge_df = numeric_df.join(categorical_df)
-        merge_df.to_csv('~/desktop/nursing-study-dataframe.csv', encoding='utf-8', index=False)
-        st.write('ファイルを保存しました')
+        save_name = 'nursing-study-dataframe.csv'
+        merge_df.to_csv(save_name, encoding='utf-8', index=False)
+        current_dir = os.getcwd()
+        st.write(f'ファイル{save_name}を{current_dir}に保存しました')
 
     st.write('')
 
