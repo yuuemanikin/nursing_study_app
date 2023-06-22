@@ -16,21 +16,22 @@ st.subheader('Ⅰ ファイルの準備と読み込み')
 uploaded_file = st.file_uploader('分析したいCSVファイルをアップロードしてください', type='csv')
 # ファイルがアップロードされた場合
 if uploaded_file is not None:
-    # ファイルを一時的に保存
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
-    temp_file.write(uploaded_file.read())
-    # 文字コードを判定
-    with open(temp_file.name, 'rb') as f:
-        result = chardet.detect(f.read())
-        encoding = result['encoding']
+    # # ファイルを一時的に保存
+    # temp_file = tempfile.NamedTemporaryFile(delete=False)
+    # temp_file.write(uploaded_file.read())
+    # # 文字コードを判定
+    # with open(temp_file.name, 'rb') as f:
+    #     result = chardet.detect(f.read())
+    #     encoding = result['encoding']
 
     show_all = st.checkbox("全データを表示する（選択しなければ先頭10件を表示します）")
 
     # Pandasのread_csv関数を使用してデータを読み込む
-    df = pd.read_csv(temp_file.name, encoding=encoding)
+    # df = pd.read_csv(temp_file.name, encoding=encoding)
+    df = pd.read_csv(uploaded_file, eingin="python")
     # 一時ファイルを削除
-    temp_file.close()
-    os.unlink(temp_file.name)
+    # temp_file.close()
+    # os.unlink(temp_file.name)
     st.write('読み込んだデータを表形式で表示')
     # 読み込んだデータを表示
     # デフォルトは先頭10件のみ表示し、選択で全件表示可能とする
