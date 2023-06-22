@@ -28,7 +28,7 @@ if uploaded_file is not None:
 
     # Pandasのread_csv関数を使用してデータを読み込む
     # df = pd.read_csv(temp_file.name, encoding=encoding)
-    df = pd.read_csv(uploaded_file, eingin="python")
+    df = pd.read_csv(uploaded_file, engine="python")
     # 一時ファイルを削除
     # temp_file.close()
     # os.unlink(temp_file.name)
