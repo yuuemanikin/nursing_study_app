@@ -181,7 +181,7 @@ if uploaded_file is not None:
     # ここまで処理したDataframeを必要があればcsvファイルとして書き出す
     save_df = st.checkbox('ここまで処理した表を保存しますか？')
     if save_df == True:
-        merge_df = pd.merge(numeric_df, categorical_df)
+        merge_df = numeric_df.join(categorical_df)
         merge_df.to_csv('nursing-study_dataframe.csv', encoding='utf-8', index=False)
 
     # 数値型のデータ同士の関連性を可視化する
