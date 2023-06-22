@@ -22,7 +22,7 @@ if uploaded_file is not None:
     # 文字コードを判定
     with open(temp_file.name, 'rb') as f:
         result = chardet.detect(f.read())
-        encoding = result['encoding']
+        encoding = result['encoding'] or 'utf-8'
     st.write(f"ファイルの文字コードは{encoding}です")
 
     show_all = st.checkbox("全データを表示する（選択しなければ先頭10件を表示します）")
@@ -177,6 +177,12 @@ if uploaded_file is not None:
         検討して下さい。
         ''')
     st.write('')
+
+    # ここまで処理したDataframeを必要があればcsvファイルとして書き出す
+    save_df = st.checkbox('ここまで処理した表を保存しますか？')
+    if save_df == True:
+        merge_df = numeric_df.merge(categorical_df)
+        merge_df.to_csv('nursing-study_dataframe.csv', encoding='utf-8', index=False)
 
     # 数値型のデータ同士の関連性を可視化する
     st.subheader('Ⅸ 数値型データ同士の関連性を可視化する')
