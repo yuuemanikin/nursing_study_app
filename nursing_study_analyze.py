@@ -176,13 +176,15 @@ if uploaded_file is not None:
         平均値と中央値を比較したり、外れ値の数を見たり、後述するヒストグラムなどで除外するかを
         検討して下さい。
         ''')
-    st.write('')
 
     # ここまで処理したDataframeを必要があればcsvファイルとして書き出す
     save_df = st.checkbox('ここまで処理した表を保存しますか？')
     if save_df == True:
         merge_df = numeric_df.join(categorical_df)
-        merge_df.to_csv('nursing-study_dataframe.csv', encoding='utf-8', index=False)
+        merge_df.to_csv('~/Desktop/nursing-study_dataframe.csv', encoding='utf-8', index=False)
+        st.write('ファイルを保存しました')
+
+    st.write('')
 
     # 数値型のデータ同士の関連性を可視化する
     st.subheader('Ⅸ 数値型データ同士の関連性を可視化する')
